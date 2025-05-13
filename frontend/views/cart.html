@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart Page</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .checkout-btn {
+            background-color: rgba(84, 35, 153, 0.631);
+            border-color: rgba(84, 35, 153, 0.631);
+            color: white;
+        }
+        .item-img {
+            width: 75px;
+            height: 75px;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+        .items-container {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            border-radius: 10px;
+        }
+        .list-group-item {
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 items-container">
+                <h3>Items in Cart</h3>
+                <ul class="list-group">
+                    <li class="list-group-item d-flex align-items-center">
+                        <input type="checkbox" class="mr-2"> 
+                        <img src="frontend/assets/images/parfem.png" alt="Mystic Dawn" class="item-img">
+                        Mystic Dawn - $50.00
+                    </li>
+                    <li class="list-group-item d-flex align-items-center">
+                        <input type="checkbox" class="mr-2"> 
+                        <img src="frontend/assets/images/parfem.png" alt="Eternal Flame" class="item-img">
+                        Eternal Flame - $60.00
+                    </li>
+                    <li class="list-group-item d-flex align-items-center">
+                        <input type="checkbox" class="mr-2"> 
+                        <img src="frontend/assets/images/parfem.png" alt="Ocean Breeze" class="item-img">
+                        Ocean Breeze - $70.00
+                    </li>
+                    <li class="list-group-item d-flex align-items-center">
+                        <input type="checkbox" class="mr-2"> 
+                        <img src="frontend/assets/images/parfem.png" alt="Midnight Whisper" class="item-img">
+                        Midnight Whisper - $80.00
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h3>Total Amount</h3>
+                <p>$260.00</p>
+                <a href="#checkout" class="btn checkout-btn btn-block">Checkout</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

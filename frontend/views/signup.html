@@ -1,0 +1,107 @@
+<section class="h-100"
+style="background-color: white;">
+  <div class="mask d-flex align-items-center h-100">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+          <div class="card" style="border-radius: 15px;">
+            <div class="card-body p-5">
+              <h2 class="text-uppercase text-center mb-5">Create an account</h2>
+
+              <form id="signupForm">
+
+                <div data-mdb-input-init class="form-outline mb-4">
+                  <input type="text" id="form3Example1cg" class="form-control form-control-lg" />
+                  <label class="form-label" for="form3Example1cg">Your Name</label>
+                </div>
+
+                <div data-mdb-input-init class="form-outline mb-4">
+                  <input type="email" id="form3Example3cg" class="form-control form-control-lg" oninput="validateEmail()" required />
+                  <label class="form-label" for="form3Example3cg">Your Email</label>
+                  <div id="emailError" style="display:none; color: rgba(84, 35, 153, 0.631); border-color: rgba(84, 35, 153, 0.631);">Please enter a valid email address.</div>
+                </div>
+
+                <div data-mdb-input-init class="form-outline mb-4">
+                  <input type="password" id="form3Example4cg" class="form-control form-control-lg" oninput="validatePassword()" minlength="6" required />
+                  <label class="form-label" for="form3Example4cg">Password</label>
+                  <div id="passwordError" style="display:none; color: rgba(84, 35, 153, 0.631); border-color: rgba(84, 35, 153, 0.631);">Password is too short.</div>
+                </div>
+
+                <div data-mdb-input-init class="form-outline mb-4">
+                  <input type="password" id="form3Example4cdg" class="form-control form-control-lg" />
+                  <label class="form-label" for="form3Example4cdg">Repeat your password</label>
+                </div>
+
+                <div class="form-check d-flex justify-content-center mb-5">
+                  <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3cg" />
+                  <label class="form-check-label" for="form2Example3g">
+                    I agree all statements in <a href="#!" class="text-body"><u>Terms of service</u></a>
+                  </label>
+                </div>
+
+                <div class="d-flex justify-content-center">
+                  <button data-mdb-button-init data-mdb-ripple-init class="btn btn-lg btn-block" type="submit" style="background-color: rgba(84, 35, 153, 0.631); border-color: rgba(84, 35, 153, 0.631); color: white;">Sign Up</button>
+                </div>
+
+                <p class="text-center text-muted mt-5 mb-0">Already have an account? <a href="#login"
+                    class="fw-bold text-body"><u>Login here</u></a></p>
+
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function validateEmail() {
+    const email = document.getElementById('form3Example3cg').value;
+    const emailError = document.getElementById('emailError');
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      emailError.style.display = 'block';
+    } else {
+      emailError.style.display = 'none';
+    }
+  }
+
+  function validatePassword() {
+    const password = document.getElementById('form3Example4cg').value;
+    const passwordError = document.getElementById('passwordError');
+    if (password.length < 6) {
+      passwordError.style.display = 'block';
+    } else {
+      passwordError.style.display = 'none';
+    }
+  }
+
+  document.getElementById('signupForm').addEventListener('submit', function(event) {
+    const email = document.getElementById('form3Example3cg').value;
+    const password = document.getElementById('form3Example4cg').value;
+    let valid = true;
+
+    // Email validation
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      document.getElementById('emailError').style.display = 'block';
+      valid = false;
+    } else {
+      document.getElementById('emailError').style.display = 'none';
+    }
+
+    // Password validation
+    if (password.length < 6) {
+      document.getElementById('passwordError').style.display = 'block';
+      valid = false;
+    } else {
+      document.getElementById('passwordError').style.display = 'none';
+    }
+
+    if (!valid) {
+      event.preventDefault();
+    }
+  });
+</script>

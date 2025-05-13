@@ -1,0 +1,61 @@
+<section class="h-100" style="background-color: white;">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <div class="card shadow-2-strong" style="border-radius: 1rem;">
+            <div class="card-body p-5 text-center">
+  
+              <h3 class="mb-5">Sign in</h3>
+  
+              <div data-mdb-input-init class="form-outline mb-4">
+                <input type="email" id="typeEmailX-2" class="form-control form-control-lg" oninput="validateEmail()" />
+                <label class="form-label" for="typeEmailX-2">Email</label>
+                <div id="emailError" style="display:none; color: rgba(84, 35, 153, 0.631); border-color: rgba(84, 35, 153, 0.631);">Please enter a valid email address.</div>
+              </div>
+  
+              <div data-mdb-input-init class="form-outline mb-4">
+                <input type="password" id="typePasswordX-2" class="form-control form-control-lg" oninput="validatePassword()" minlength="6" />
+                <label class="form-label" for="typePasswordX-2">Password</label>
+                <div id="passwordError" style="display:none; color: rgba(84, 35, 153, 0.631); border-color: rgba(84, 35, 153, 0.631);">Password is too short.</div>
+              </div>
+  
+              <!-- Checkbox -->
+              <div class="form-check d-flex justify-content-start mb-4">
+                <input class="form-check-input" type="checkbox" value="" id="form1Example3" />
+                <label class="form-check-label" for="form1Example3"> Remember password </label>
+              </div>
+  
+              <button data-mdb-button-init data-mdb-ripple-init class="btn btn-lg btn-block" type="submit" style="background-color: rgba(84, 35, 153, 0.631); border-color: rgba(84, 35, 153, 0.631); color: white;" href=#signup; >Log in</button>
+  
+              <p class="text-center text-muted mt-5 mb-0">Don't have an account? <a href="#signup"
+                class="fw-bold text-body"><u>Sign Up Here!</u></a></p>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<script>
+function validateEmail() {
+  const email = document.getElementById('typeEmailX-2').value;
+  const emailError = document.getElementById('emailError');
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailPattern.test(email)) {
+    emailError.style.display = 'block';
+  } else {
+    emailError.style.display = 'none';
+  }
+}
+
+function validatePassword() {
+  const password = document.getElementById('typePasswordX-2').value;
+  const passwordError = document.getElementById('passwordError');
+  if (password.length < 6) {
+    passwordError.style.display = 'block';
+  } else {
+    passwordError.style.display = 'none';
+  }
+}
+</script>

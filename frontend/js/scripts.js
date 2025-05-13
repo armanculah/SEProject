@@ -1,0 +1,1 @@
+//dodavat js-ove za stranice
