@@ -1,8 +1,10 @@
 <?php
 require_once __DIR__ . '/../dao/BaseDao.php';
+if (!class_exists('BaseService')) {
 class BaseService {
    protected $dao;
    public function __construct($dao) {
+       error_log('DEBUG: Constructing BaseService');
        $this->dao = $dao;
    }
    public function getAll() {
@@ -21,4 +23,4 @@ class BaseService {
        return $this->dao->delete($id);
    }
 }
-?>
+}

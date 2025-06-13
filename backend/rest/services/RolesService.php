@@ -1,5 +1,5 @@
 <?php
-require_once 'BaseService.php';
+require_once __DIR__ . '/BaseService.php';
 require_once '../dao/RolesDao.php';
 
 class RolesService extends BaseService {
