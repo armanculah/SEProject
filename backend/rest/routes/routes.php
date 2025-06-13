@@ -1,12 +1,9 @@
 <?php
-require __DIR__ . '/../../../vendor/autoload.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__ . '/../services/UsersService.php'; // Include UsersService
 require_once __DIR__ . '/../services/OrdersService.php'; // Include OrdersService
 require_once __DIR__ . '/../services/CartsService.php'; // Include CartsService
 require_once __DIR__ . '/../services/ProductsService.php'; // Include ProductsService
-require_once __DIR__ . '/../dao/ProductsDao.php';
-require_once __DIR__ . '/../dao/NotesDao.php';
-require_once __DIR__ . '/../dao/GendersDao.php';
 
 
 /**
@@ -108,8 +105,10 @@ Flight::route('POST /signup', function() {
  * )
  */
 Flight::route('GET /profile', function() {
+    require_role('user'); // Ensure only users can access their profile
+    require_auth();
     $usersService = new UsersService();
-    $userId = Flight::request()->query['user_id']; // Assuming user_id is passed as a query parameter
+    $userId = Flight::get('user')->id; // Get user ID from decoded JWT
     Flight::json($usersService->getProfile($userId));
 });
 
@@ -139,9 +138,43 @@ Flight::route('GET /profile', function() {
  * )
  */
 Flight::route('GET /profile/orders', function() {
+    require_role('user'); // Ensure only users can access their orders
+    require_auth();
     $ordersService = new OrdersService();
-    $userId = Flight::request()->query['user_id']; // Assuming user_id is passed as a query parameter
+    $userId = Flight::get('user')->id; // Get user ID from decoded JWT
     Flight::json($ordersService->getOrdersByUserId($userId));
+});
+
+/**
+ * @OA\Put(
+ *     path="/profile",
+ *     summary="Update user profile",
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="username", type="string"),
+ *             @OA\Property(property="email", type="string"),
+ *             @OA\Property(property="address", type="string")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Profile updated successfully",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="message", type="string", example="Profile updated successfully")
+ *         )
+ *     )
+ * )
+ */
+Flight::route('PUT /profile', function() {
+    require_auth();
+    $data = Flight::request()->data->getData();
+    $userId = Flight::get('user')->id;
+    $usersService = new UsersService();
+    $usersService->updateUser($userId, $data);
+    Flight::json(['message' => 'Profile updated successfully']);
 });
 
 // Admin Profile Routes
@@ -168,6 +201,7 @@ Flight::route('GET /profile/orders', function() {
  * )
  */
 Flight::route('GET /admin/profile', function() {
+    require_role('admin'); // Ensure only admins can access admin profile
     $usersService = new UsersService();
     $userId = Flight::request()->query['user_id']; // Assuming user_id is passed as a query parameter
     Flight::json($usersService->getAdminProfile($userId));
@@ -193,6 +227,7 @@ Flight::route('GET /admin/profile', function() {
  * )
  */
 Flight::route('GET /admin/orders', function() {
+    require_role('admin');
     $ordersService = new OrdersService();
     Flight::json($ordersService->getAllOrders());
 });
@@ -224,6 +259,7 @@ Flight::route('GET /admin/orders', function() {
  * )
  */
 Flight::route('GET /products', function() {
+    require_role('admin');
     $productsService = new ProductsService();
     $filters = Flight::request()->query->getData();
     Flight::json($productsService->searchProducts($filters));
@@ -415,11 +451,182 @@ Flight::route('DELETE /cart/@item_id', function($item_id) {
  * )
  */
 Flight::route('DELETE /users/@id', function($id) {
+    require_role('admin'); // Ensure only admins can delete users
     $usersService = new UsersService();
     $result = $usersService->deleteUser($id);
     if ($result) {
         Flight::json(['message' => 'User deleted successfully']);
     } else {
         Flight::json(['error' => 'User not found'], 404);
+    }
+});
+
+/**
+ * @OA\Post(
+ *     path="/checkout",
+ *     summary="Create an order during checkout",
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="user_id", type="integer"),
+ *             @OA\Property(property="order_address", type="string"),
+ *             @OA\Property(property="order_city", type="string"),
+ *             @OA\Property(property="order_country", type="string"),
+ *             @OA\Property(property="order_phone", type="string"),
+ *             @OA\Property(property="total_price", type="number")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Order created successfully",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="message", type="string", example="Order created successfully"),
+ *             @OA\Property(property="order_id", type="integer")
+ *         )
+ *     )
+ * )
+ */
+Flight::route('POST /checkout', function() {
+    require_auth();
+    $data = Flight::request()->data->getData();
+    $userId = Flight::get('user')->id;
+    $cartItems = Flight::request()->data->getData()['cart_items'];
+    $totalPrice = Flight::request()->data->getData()['total_price'];
+    $ordersService = new OrdersService();
+    $orderId = $ordersService->createOrder($userId, $cartItems, $totalPrice);
+    Flight::json(['message' => 'Order created successfully', 'order_id' => $orderId]);
+});
+
+// Authentication Middleware and Routes
+require_once __DIR__ . '/../../middleware/AuthMiddleware.php';
+
+Flight::route('POST /register', function() {
+    $data = Flight::request()->data->getData();
+    if (!isset($data['email'], $data['password'], $data['name'], $data['role'])) {
+        Flight::halt(400, json_encode(['error' => 'Missing fields']));
+    }
+
+    $userService = new UsersService();
+    if ($userService->getUserByEmail($data['email'])) {
+        Flight::halt(409, json_encode(['error' => 'Email already exists']));
+    }
+
+    $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+    $newUser = $userService->createUser($data);
+    echo json_encode(['message' => 'User registered', 'user' => $newUser]);
+});
+
+Flight::route('POST /login', function() {
+    $data = Flight::request()->data->getData();
+    if (!isset($data['email'], $data['password'])) {
+        Flight::halt(400, json_encode(['error' => 'Missing email or password']));
+    }
+
+    $userService = new UsersService();
+    $user = $userService->getUserByEmail($data['email']);
+    if (!$user || !password_verify($data['password'], $user['password'])) {
+        Flight::halt(401, json_encode(['error' => 'Invalid credentials']));
+    }
+
+    $_SESSION['user_id'] = $user['id'];
+    $_SESSION['role'] = $user['role'];
+    echo json_encode(['message' => 'Login successful', 'user' => ['id' => $user['id'], 'role' => $user['role']]]);
+});
+
+// Product CRUD Endpoints for Admin
+/**
+ * @OA\Post(
+ *     path="/products",
+ *     summary="Create a new product",
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="product_name", type="string"),
+ *             @OA\Property(property="price", type="number"),
+ *             @OA\Property(property="gender_id", type="integer"),
+ *             @OA\Property(property="quantity", type="integer"),
+ *             @OA\Property(property="description", type="string"),
+ *             @OA\Property(property="image_url", type="string"),
+ *             @OA\Property(property="on_sale", type="integer")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Product created successfully"
+ *     )
+ * )
+ */
+Flight::route('POST /products', function() {
+    require_role('admin');
+    $data = Flight::request()->data->getData();
+    $productsService = new ProductsService();
+    $result = $productsService->createProduct($data);
+    Flight::json(['message' => 'Product created successfully', 'product' => $result]);
+});
+
+/**
+ * @OA\Put(
+ *     path="/products/{id}",
+ *     summary="Update a product",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="product_name", type="string"),
+ *             @OA\Property(property="price", type="number"),
+ *             @OA\Property(property="gender_id", type="integer"),
+ *             @OA\Property(property="quantity", type="integer"),
+ *             @OA\Property(property="description", type="string"),
+ *             @OA\Property(property="image_url", type="string"),
+ *             @OA\Property(property="on_sale", type="integer")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Product updated successfully"
+ *     )
+ * )
+ */
+Flight::route('PUT /products/@id', function($id) {
+    require_role('admin');
+    $data = Flight::request()->data->getData();
+    $productsService = new ProductsService();
+    $result = $productsService->updateProduct($id, $data);
+    Flight::json(['message' => 'Product updated successfully', 'result' => $result]);
+});
+
+/**
+ * @OA\Delete(
+ *     path="/products/{id}",
+ *     summary="Delete a product",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Product deleted successfully"
+ *     )
+ * )
+ */
+Flight::route('DELETE /products/@id', function($id) {
+    require_role('admin');
+    $productsService = new ProductsService();
+    $result = $productsService->deleteProduct($id);
+    if ($result) {
+        Flight::json(['message' => 'Product deleted successfully']);
+    } else {
+        Flight::json(['error' => 'Product not found'], 404);
     }
 });

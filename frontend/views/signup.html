@@ -11,25 +11,25 @@ style="background-color: white;">
               <form id="signupForm">
 
                 <div data-mdb-input-init class="form-outline mb-4">
-                  <input type="text" id="form3Example1cg" class="form-control form-control-lg" />
-                  <label class="form-label" for="form3Example1cg">Your Name</label>
+                  <input type="text" id="register-username" class="form-control form-control-lg" required />
+                  <label class="form-label" for="register-username">Your Name</label>
                 </div>
 
                 <div data-mdb-input-init class="form-outline mb-4">
-                  <input type="email" id="form3Example3cg" class="form-control form-control-lg" oninput="validateEmail()" required />
-                  <label class="form-label" for="form3Example3cg">Your Email</label>
+                  <input type="email" id="register-email" class="form-control form-control-lg" oninput="validateEmail()" required />
+                  <label class="form-label" for="register-email">Your Email</label>
                   <div id="emailError" style="display:none; color: rgba(84, 35, 153, 0.631); border-color: rgba(84, 35, 153, 0.631);">Please enter a valid email address.</div>
                 </div>
 
                 <div data-mdb-input-init class="form-outline mb-4">
-                  <input type="password" id="form3Example4cg" class="form-control form-control-lg" oninput="validatePassword()" minlength="6" required />
-                  <label class="form-label" for="form3Example4cg">Password</label>
+                  <input type="password" id="register-password" class="form-control form-control-lg" oninput="validatePassword()" minlength="6" required />
+                  <label class="form-label" for="register-password">Password</label>
                   <div id="passwordError" style="display:none; color: rgba(84, 35, 153, 0.631); border-color: rgba(84, 35, 153, 0.631);">Password is too short.</div>
                 </div>
 
                 <div data-mdb-input-init class="form-outline mb-4">
-                  <input type="password" id="form3Example4cdg" class="form-control form-control-lg" />
-                  <label class="form-label" for="form3Example4cdg">Repeat your password</label>
+                  <input type="password" id="register-confirm-password" class="form-control form-control-lg" required />
+                  <label class="form-label" for="register-confirm-password">Repeat your password</label>
                 </div>
 
                 <div class="form-check d-flex justify-content-center mb-5">
@@ -56,52 +56,23 @@ style="background-color: white;">
   </div>
 </section>
 
+<script src="/SE-Project/frontend/utils/constants.js"></script>
+<script src="/SE-Project/frontend/utils/rest-client.js"></script>
+<script src="/armanculah/webproject/frontend/services/user-service.js"></script>
 <script>
-  function validateEmail() {
-    const email = document.getElementById('form3Example3cg').value;
-    const emailError = document.getElementById('emailError');
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) {
-      emailError.style.display = 'block';
-    } else {
-      emailError.style.display = 'none';
-    }
-  }
-
-  function validatePassword() {
-    const password = document.getElementById('form3Example4cg').value;
-    const passwordError = document.getElementById('passwordError');
-    if (password.length < 6) {
-      passwordError.style.display = 'block';
-    } else {
-      passwordError.style.display = 'none';
-    }
-  }
-
+  console.log("signup.html loaded");
   document.getElementById('signupForm').addEventListener('submit', function(event) {
-    const email = document.getElementById('form3Example3cg').value;
-    const password = document.getElementById('form3Example4cg').value;
-    let valid = true;
-
-    // Email validation
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) {
-      document.getElementById('emailError').style.display = 'block';
-      valid = false;
+    event.preventDefault();
+    var entity = {
+      "register-username": document.getElementById('register-username').value,
+      "register-email": document.getElementById('register-email').value,
+      "register-password": document.getElementById('register-password').value
+    };
+    console.log("Signup form submitted", entity);
+    if (typeof UserService === 'undefined') {
+      console.error("UserService is not defined!");
     } else {
-      document.getElementById('emailError').style.display = 'none';
-    }
-
-    // Password validation
-    if (password.length < 6) {
-      document.getElementById('passwordError').style.display = 'block';
-      valid = false;
-    } else {
-      document.getElementById('passwordError').style.display = 'none';
-    }
-
-    if (!valid) {
-      event.preventDefault();
+      UserService.register(entity);
     }
   });
 </script>
