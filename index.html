@@ -44,12 +44,6 @@
     <!-- MDB JavaScript -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"></script>
 
-
-
-
-    
-<!--    <script src="./assets/js/script.js"></script>-->
-
 </head>
 
 
@@ -68,17 +62,10 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto align-items-center">
-          <li class="nav-item">
-            <a class="nav-link mx-2" ><i class="fas fa-search pe-2"></i>Search</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link mx-2" href="#browse"><i class="fas fa-wind pe-2"></i>Explore</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link mx-2" href="#profile"><i class="fas fa-user pe-2"></i>Account</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link mx-2" href="#cart"><i class="fas fa-shopping-cart pe-2"></i>Cart</a>
+          <li class="nav-item"><a class="nav-link mx-2" ><i class="fas fa-search pe-2"></i>Search</a></li>
+          <li class="nav-item"><a class="nav-link mx-2" href="#browse"><i class="fas fa-wind pe-2"></i>Products</a></li>
+          <li class="nav-item"><a class="nav-link mx-2" href="#profile"><i class="fas fa-user pe-2"></i>Account</a></li>
+          <li class="nav-item"><a class="nav-link mx-2" href="#cart"><i class="fas fa-shopping-cart pe-2"></i>Cart</a></li>
           <li class="nav-item ms-3">
             <a class="btn btn-dark btn-rounded" href="#login" style="background-color: #AE2AA4; border-color: #AE2AA4; color: white;">Log in</a>
           </li>
@@ -86,21 +73,19 @@
       </div>
     </div>
   </nav>
-  <!-- Navbar -->
-
 </header>
 
-<section id="pageContent" style="padding-top: 80px;"> <!--ovdje za svoj html page-->
+<section id="pageContent" style="padding-top: 80px;">
     <main id="spapp" role="main">
         <section id="adminpanel" data-load="adminpanel.html"></section>
         <section id="browse" data-load="browse.html"></section>
         <section id="checkout" data-load="checkout.html"></section>
-		<section id="dashboard" data-load="dashboard.html"></section>
+		    <section id="dashboard" data-load="dashboard.html"></section>
         <section id="login" data-load="login.html"></section>
-		<section id="productdetails" data-load="productdetails.html"></section>
+		    <section id="productdetails" data-load="productdetails.html"></section>
         <section id="profile" data-load="profile.html"></section>
-		<section id="signup" data-load="signup.html"></section>
-    <section id="cart" data-load="cart.html"></section>
+		    <section id="signup" data-load="signup.html"></section>
+        <section id="cart" data-load="cart.html"></section>
     </main>
 </section>
 
@@ -166,66 +151,15 @@
           </div>
           <!-- Grid column -->
         </div>
-        <!--Grid row-->
-      </section>
-      <!-- Section: Links -->
-
-      <hr class="my-3">
-
-      <!-- Section: Copyright -->
-      <section class="p-3 pt-0">
-        <div class="row d-flex align-items-center">
-          <!-- Grid column -->
-          <div class="col-md-5 col-lg-4 ml-lg-0 text-center text-md-end">
-            <!-- Facebook -->
-            <a
-               class="btn btn-outline-light btn-floating m-1"
-               class="text-white"
-               role="button"
-               ><i class="fab fa-facebook-f"></i
-              ></a>
-
-            <!-- Twitter -->
-            <a
-               class="btn btn-outline-light btn-floating m-1"
-               class="text-white"
-               role="button"
-               ><i class="fab fa-twitter"></i
-              ></a>
-
-            <!-- Google -->
-            <a
-               class="btn btn-outline-light btn-floating m-1"
-               class="text-white"
-               role="button"
-               ><i class="fab fa-google"></i
-              ></a>
-
-            <!-- Instagram -->
-            <a
-               class="btn btn-outline-light btn-floating m-1"
-               class="text-white"
-               role="button"
-               ><i class="fab fa-instagram"></i
-              ></a>
-          </div>
-          <!-- Grid column -->
-        </div>
-      </section>
-      <!-- Section: Copyright -->
     </div>
-    <!-- Grid container -->
   </footer>
   <!-- Footer -->
 </div>
-<!-- End of .container -->
 </footer>
-
 
 <script>
     Utils.init_spapp();
 </script>
 
 </body>
-
 </html>
