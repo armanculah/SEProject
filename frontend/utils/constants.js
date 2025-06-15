@@ -2,10 +2,10 @@ var Constants = {
     get_api_base_url: function () {
         if (location.hostname === "localhost" ) {
             // Correct backend API path for local development 
-            return "http://localhost/SEProject/backend";
+            return "http://localhost/armanculah/SEProject/backend";
         } else {
             // Update this for production deployment if needed
-            return "/SEProject/backend";
+            return "https://seproject-php-backend-aze83.ondigitalocean.app";
         }
     },
     USER_ROLE: "user",

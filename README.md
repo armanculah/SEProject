@@ -1,7 +1,7 @@
 # SEProject
 Welcome!
 
-Our names are Edina Kurto and Arman Ćulah and this is our repo for our student project "Smell of East and West shop: Aragon" for the course IT309 Software Engineering at the International Burch University. Website hosted on: . <br>
+Our names are Edina Kurto and Arman Ćulah and this is our repo for our student project "Smell of East and West shop: Aragon" for the course IT309 Software Engineering at the International Burch University. Website hosted on: https://seproject-php-backend-aze83.ondigitalocean.app/. <br>
 
 March 2025: <br>
 Layed out the core architecture of our project, creating frontend and backend folders accordingly <br>
@@ -15,8 +15,17 @@ New database using MySQL and tuned the prior diagrams to the website, adding a n
 DAO layer in the backend, using the approach of creating a basedao then extending the basedao to other table specific dao files. This method prevents SQL injections and provides flexibility and scaleability <br>
 Users have two different roles: Admin and User, with different Authorization methods. <br>
 
+May 2025:
 For the first deliverable, Milestone 1, we created our plan of action, diagrams and user stories for the project. They also can be found in the project documentation <br>
 
  For the second deliverable, according to our set plan, we completed the frontend of the project and created the structure of our backend, following our set plan by Milestone 1. We tested routes and had a fully working DAO layer. We implemented Swagger documentation. This is set under Version1 of the project.<br>
+<br> In this phase we developed coding standards and architectual patterns we will use for this project <br>
 
-For the third deliverable, version 2.0 created from the main development branch that will be the deployment version for the hosting of the website <br>
+June 2025:
+For the third deliverable, version 2.0 created from the main development branch that will be the deployment version for the hosting of the website, API Calls, Middleware JWT Authentication and Authorization are done<br>
+In the folder tests in the backend folder, are three unit tests that yield positive results <br>
+Project teammate contribution is detailed in the Project documentation and evident in Collaboration on GitHub <br>
+
+
+Sincerely, <br>
+Edina and Arman
