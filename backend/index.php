@@ -1,53 +1,43 @@
 <?php
+header("Access-Control-Allow-Origin: *"); 
+header("Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, Authentication");
+header("Access-Control-Allow-Credentials: true");
 
-// Enable error reporting for debugging
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// Handle preflight requests
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
 
-require_once __DIR__ . '/vendor/autoload.php';
-require 'rest/services/AuthService.php'; // Updated to match the new file name
-require "middleware/AuthMiddleware.php";
+require 'vendor/autoload.php';
+require 'middleware/AuthMiddleware.php';
 
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
-
-// Register services and middleware
-Flight::map('auth_service', function() {
-    return new AuthService();
-});
-Flight::map('auth_service_instance', function() { return Flight::get('auth_service'); });
-Flight::map('auth_middleware', function() {
-    return new AuthMiddleware();
-});
-
-// Global middleware for token verification
+Flight::register('auth_middleware', "AuthMiddleware");
 Flight::route('/*', function() {
-    $url = strtolower(Flight::request()->url);
-    $method = strtoupper(Flight::request()->method);
-    error_log("DEBUG: Checking URL in middleware: $url, METHOD: $method");
-    // Allow unauthenticated access to login/register (with or without /rest and version prefix)
-    if (
-        preg_match('#^(/rest)?(/v[0-9]+)?/auth/login/?$#i', $url) ||
-        preg_match('#^(/rest)?(/v[0-9]+)?/auth/register/?$#i', $url)
+    if(
+        strpos(Flight::request()->url, '/auth/login') === 0 ||
+        strpos(Flight::request()->url, '/auth/register') === 0
     ) {
-        error_log("DEBUG: Middleware bypassed for public auth route: $url");
-        return true;
+        return TRUE;
     } else {
         try {
-            $token = Flight::request()->getHeader("Authorization");
-            if (Flight::auth_middleware()->verifyToken($token)) {
-                return true;
-            }
+            $token = Flight::request()->getHeader("Authentication");
+            if(Flight::auth_middleware()->verifyToken($token))
+                return TRUE;
         } catch (\Exception $e) {
             Flight::halt(401, $e->getMessage());
         }
     }
-});
+ });
 
-// Include route files
-require_once __DIR__ .'/rest/routes/AuthRoutes.php';
-require_once __DIR__ .'/rest/routes/routes.php';
-
-// Start the FlightPHP framework
+require 'rest/routes/user_routes.php';
+require 'rest/routes/category_routes.php';
+require 'rest/routes/auth_routes.php';
+require 'rest/routes/cart_routes.php';
+require 'rest/routes/wishlist_routes.php';
+require 'rest/routes/product_routes.php';
+require 'rest/routes/product_view_routes.php';
+require 'rest/routes/order_routes.php';
+require 'rest/routes/item_in_order_routes.php';
 Flight::start();
