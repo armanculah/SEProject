@@ -1,4 +1,4 @@
-# webproject
+# SEProject
 Welcome!
 
 Our names are Edina Kurto and Arman Ćulah and this is our repo for our student project "Smell of East and West shop: Aragon" for the course IT309 Software Engineering at the International Burch University. Website hosted on: . <br>
