@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 require 'vendor/autoload.php';
 require 'middleware/AuthMiddleware.php';
+require_once 'vendor/mikecao/flight/flight/Flight.php';
 
 Flight::register('auth_middleware', "AuthMiddleware");
 Flight::route('/*', function() {
