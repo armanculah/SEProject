@@ -19,3 +19,4 @@ For the first deliverable, Milestone 1, we created our plan of action, diagrams 
 
  For the second deliverable, according to our set plan, we completed the frontend of the project and created the structure of our backend, following our set plan by Milestone 1. We tested routes and had a fully working DAO layer. We implemented Swagger documentation. This is set under Version1 of the project.<br>
 
+For the third deliverable, version 2.0 created from the main development branch that will be the deployment version for the hosting of the website <br>
