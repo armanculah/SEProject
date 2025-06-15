@@ -1,8 +1,19 @@
 <?php
 /**
+* @OA\Info(
+*     title="API",
+*     description="Aragon Shop API",
+*     version="1.0",
+*     @OA\Contact(
+*         email="edina.kurto@stu.ibu.edu.ba",
+*         name="Aragon",
+*     )
+* )
+*/
+/**
 * @OA\Server(
-*     url= "http://localhost/armanculah/webproject/backend",
-*     description="API for Aragon fragrance"
+*     url= "http://localhost/SEProject/backend",
+*     description="API server"
 * )
 */
 /**
@@ -13,14 +24,3 @@
 *     name="Authentication"
 * )
 */
-/**
- * @OA\Info(
- *     title="Api Aragon",
- *     version="1.0.0",
- *     description="First version of API Aragon",
- *     @OA\Contact(
- *         name="AĆ",
- *         email="web2001programming@gmail.com"
- *     )
- * )
- */

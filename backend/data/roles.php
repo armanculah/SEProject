@@ -1,6 +1,6 @@
 <?php
 class Roles
 {
-    const ADMIN = "1";
-    const USER = "2";
+    const USER = "1";
+    const ADMIN = "2";
 }
