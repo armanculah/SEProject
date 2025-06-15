@@ -1,68 +1,115 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cart Page</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .checkout-btn {
-            background-color: rgba(84, 35, 153, 0.631);
-            border-color: rgba(84, 35, 153, 0.631);
-            color: white;
-        }
-        .item-img {
-            width: 75px;
-            height: 75px;
-            object-fit: cover;
-            margin-right: 15px;
-        }
-        .items-container {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 25px;
-            border-radius: 10px;
-        }
-        .list-group-item {
-            padding: 15px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-8 items-container">
-                <h3>Items in Cart</h3>
-                <ul class="list-group">
-                    <li class="list-group-item d-flex align-items-center">
-                        <input type="checkbox" class="mr-2"> 
-                        <img src="frontend/assets/images/parfem.png" alt="Mystic Dawn" class="item-img">
-                        Mystic Dawn - $50.00
-                    </li>
-                    <li class="list-group-item d-flex align-items-center">
-                        <input type="checkbox" class="mr-2"> 
-                        <img src="frontend/assets/images/parfem.png" alt="Eternal Flame" class="item-img">
-                        Eternal Flame - $60.00
-                    </li>
-                    <li class="list-group-item d-flex align-items-center">
-                        <input type="checkbox" class="mr-2"> 
-                        <img src="frontend/assets/images/parfem.png" alt="Ocean Breeze" class="item-img">
-                        Ocean Breeze - $70.00
-                    </li>
-                    <li class="list-group-item d-flex align-items-center">
-                        <input type="checkbox" class="mr-2"> 
-                        <img src="frontend/assets/images/parfem.png" alt="Midnight Whisper" class="item-img">
-                        Midnight Whisper - $80.00
-                    </li>
-                </ul>
+<section class="h-100 h-custom" style="background: linear-gradient(135deg, #ffffff, #b3afb6);">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col">
+        <div class="card" style="background-color: #eee; border: 2px solid #6E0E9B;">
+          <div class="card-body p-4">
+            <div class="row">
+
+              <!-- Shopping Cart Column -->
+              <div class="col-lg-7">
+                <h5 class="mb-3">
+                  <a href="#browse" class="text-body"><i class="fas fa-long-arrow-alt-left me-2"></i>Continue shopping</a>
+                </h5>
+                <hr>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                  <div>
+                    <p class="mb-1">Shopping cart</p>
+                    <p class="mb-0" id="cartItemCount">Loading...</p>
+                  </div>
+                </div>
+                <div id="cartItems"></div>
+              </div>
+
+              <!-- Card Details Column -->
+              <div class="col-lg-5 d-flex flex-column">
+                <div class="card bg-primary text-white rounded-3 h-100 align-self-stretch">
+                  <div class="card-body d-flex flex-column justify-content-center" style="background-color: #6E0E9B; height: 100%;">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                      <h5 class="mb-0">Card details</h5>
+                    </div>
+
+                    <!-- FORM -->
+                    <form id="checkout_form" novalidate>
+
+                      <div class="row mb-4">
+                        <div class="col-md-6">
+                          <div class="form-outline form-white">
+                            <input type="text" name="name" id="name" class="form-control form-control-lg"
+                              style="background-color: #ffffff;" placeholder="Name" size="7" />
+                            <label class="form-label text-white" for="name">Name</label>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-outline form-white">
+                            <input type="text" name="surname" id="surname" class="form-control form-control-lg"
+                              style="background-color: #ffffff;" placeholder="Surname" size="7" />
+                            <label class="form-label text-white" for="surname">Surname</label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-outline form-white mb-4">
+                        <input type="text" name="address" id="address" class="form-control form-control-lg"
+                          placeholder="Address" style="background-color: #ffffff;" />
+                        <label class="form-label text-white" for="address">Address</label>
+                      </div>
+
+                      <div class="row mb-4">
+                        <div class="col-md-6">
+                          <div class="form-outline form-white">
+                            <input type="text" name="city" id="city" class="form-control form-control-lg"
+                              style="background-color: #ffffff;" placeholder="City" size="7" />
+                            <label class="form-label text-white" for="city">City</label>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-outline form-white">
+                            <input type="text" name="country" id="country" class="form-control form-control-lg"
+                              style="background-color: #ffffff;" placeholder="Country" size="7" />
+                            <label class="form-label text-white" for="country">Country</label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-outline form-white mb-4">
+                        <input type="text" name="phone" id="phone" class="form-control form-control-lg"
+                          placeholder="Phone Number" style="background-color: #ffffff;" />
+                        <label class="form-label text-white" for="phone">Phone Number</label>
+                      </div>
+
+                      <hr class="my-4">
+
+                      <div class="d-flex justify-content-between mb-4">
+                        <p class="mb-2">Total (Incl. taxes)</p>
+                        <p class="mb-2" id="cart-total-value">$72.00</p>
+                      </div>
+
+                      <div class="d-flex justify-content-center gap-3">
+                        <!-- Pay with Card -->
+                        <button type="submit" id="pay-card-btn" class="btn btn-lg btn-white-custom"
+                          style="background-color: #ffffff; border: 1px solid #6e0e9b; color: #6e0e9b;">
+                          <div class="d-flex align-items-center gap-2">
+                            <span>Pay with Card</span>
+                            <i class="fas fa-credit-card"></i>
+                          </div>
+                        </button>
+                      </div>
+                    </form>
+
+                  </div>
+                </div>
+              </div>
+              <!-- End Card Column -->
+
             </div>
-            <div class="col-md-4">
-                <h3>Total Amount</h3>
-                <p>$260.00</p>
-                <a href="#checkout" class="btn checkout-btn btn-block">Checkout</a>
-            </div>
+          </div>
         </div>
+      </div>
     </div>
-    <script src="/SEProject/frontend/utils/constants.js"></script>
-    <script src="/SEProject/frontend/utils/rest-client.js"></script>
-</body>
-</html>
+  </div>
+</section>
+
+<script>
+  OrderService.initCheckoutFormValidation();
+</script>

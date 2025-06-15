@@ -7,7 +7,7 @@
 
         config = $.extend({
             defaultView  : $("main#spapp > section:last-child").attr("id"),
-            templateDir  : '/frontend/views/',
+            templateDir  : '/views/',
             pageNotFound : false
         }, options );
 
