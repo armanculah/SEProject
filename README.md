@@ -26,6 +26,11 @@ For the third deliverable, version 2.0 created from the main development branch 
 In the folder tests in the backend folder, are three unit tests that yield positive results <br>
 Project teammate contribution is detailed in the Project documentation and evident in Collaboration on GitHub <br>
 
+To test out the Admin features:
+arman.culah@stu.ibu.edu.ba <br>
+11111111 <br>
+
+
 
 Sincerely, <br>
 Edina and Arman
